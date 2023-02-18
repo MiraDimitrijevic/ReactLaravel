@@ -13,6 +13,7 @@ class Odeljenje extends Model
     protected $fillable = [
         'naziv',
         'opis',
+        'sediste_id',
       
     ];
     use HasFactory;
@@ -21,7 +22,10 @@ class Odeljenje extends Model
         return $this->hasMany(User::class);
     }
 
-    public function zaposlenis(){
-        return $this->hasMany(Zaposleni::class);
-    }
+   
+
+    
+    public function sediste(){
+        return $this->belongsTo(Sediste::class, 'sediste_id');
+    } 
 }

@@ -16,6 +16,7 @@ class CreateOdeljenjesTable extends Migration
         Schema::create('odeljenjes', function (Blueprint $table) {
             $table->id();
             $table->string('naziv');
+            $table->foreignId('sediste_id');
             $table->timestamps();
         });
     }

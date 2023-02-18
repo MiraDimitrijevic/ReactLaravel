@@ -22,7 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'pol'
+        'pol',
+        'odeljenje_id',
+        'admin',
     ];
 
     /**
@@ -36,9 +38,7 @@ class User extends Authenticatable
        
     ];
 
-    protected $guarder=[
-        'odeljenje_id',
-    ];
+    
 
     /**
      * The attributes that should be cast.

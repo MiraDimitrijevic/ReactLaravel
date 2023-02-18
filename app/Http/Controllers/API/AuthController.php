@@ -19,6 +19,9 @@ class AuthController extends Controller
             'email' => 'required|string|max:40|email|unique:users',
             'password' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/|string|min:8',
             'pol'=>'in:m,z',
+            'odeljenje_id'=>'required',
+            'admin'=>'required|boolean',
+
             
         ]);
 
@@ -31,7 +34,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'pol'=>$request->pol,
-            'odeljenje_id'=>1
+            'odeljenje_id'=>$request->odeljenje_id,
+            'admin'=>$request->admin,
         ]);
 
         $token = $user->createToken('registration_token')->plainTextToken;

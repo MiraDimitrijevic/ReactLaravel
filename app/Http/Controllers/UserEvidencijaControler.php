@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Evidencija;
 
 
-class ZaposleniEvidencijaControler extends Controller
+class UserEvidencijaControler extends Controller
 {
-    public function index($zaposleni_id) {
-        $evidencije=Evidencija::get()->where('zaposleni_id', $zaposleni_id);
+    public function index($user_id) {
+        $evidencije=Evidencija::get()->where('zaposleni_id', $user_id);
         if(is_null($evidencije)) return response()->json("Za zaposlenog ne postoji nijedna evidencija",404);
         else  return response()->json($evidencije);
            }

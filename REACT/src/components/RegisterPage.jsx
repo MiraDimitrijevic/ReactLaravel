@@ -30,7 +30,8 @@ $('#odelj').change(function(){
     email: "",
     password: "",
     pol:"m",
-    odeljenje:"",
+    odeljenje_id:"",
+    admin:0,
     
   });
   function getSelected(){
@@ -50,9 +51,20 @@ setPodaciZaRegistraciju(data);
 
   function dodaj(e){
     let data=podaciZaRegistraciju;
-    data[e.target.name]=e.target.value;
+    if(e.target.name == 'odeljenje') {
+      var odelj_id=Number(e.target.value);
+      data['odeljenje_id']= odelj_id;
+      if(e.target.value==1){
+        data.admin=1;
+      } else {
+        data.admin=0;
+      }
+    } else {
+      data[e.target.name]=e.target.value;
+    }
     console.log(data);
     setPodaciZaRegistraciju(data);
+
   }
   let navigate=useNavigate();
 
@@ -115,6 +127,8 @@ navigate("/login");
                   </div>
 
                   <MDBRow>
+
+                    
 
                     <MDBCol md='6'>
                     <select class="form-select"  id= "odelj" onChange={dodaj} name= "odeljenje" aria-label="Default select example"><option selected>Open this select menu</option><option value="1">One</option><option value="2">Two</option><option value="3">Three</option></select>

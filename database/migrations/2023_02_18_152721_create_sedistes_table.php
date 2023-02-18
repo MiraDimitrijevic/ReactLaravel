@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateZaposlenisTable extends Migration
+class CreateSedistesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateZaposlenisTable extends Migration
      */
     public function up()
     {
-        Schema::create('zaposlenis', function (Blueprint $table) {
+        Schema::create('sedistes', function (Blueprint $table) {
             $table->id();
-            $table->string('imePrezime');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('pol', ['z','m']);
-            $table->foreignId('odeljenje_id');
+            $table->string('grad');
+            $table->string('adresa');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateZaposlenisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('zaposlenis');
+        Schema::dropIfExists('sedistes');
     }
 }

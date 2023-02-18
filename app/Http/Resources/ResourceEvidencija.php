@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\ResourceZaposleni;
 use App\Http\Resources\ResourceUser;
 
 class ResourceEvidencija extends JsonResource
@@ -24,7 +23,7 @@ class ResourceEvidencija extends JsonResource
             'vremeDo'=>$this->resource->vremeDo,
             
             'evidentirao/la'=> new ResourceUser($this->resource->user),
-            'zaposleni'=> new ResourceZaposleni($this->resource->zaposleni)
+            'zaposleni'=> new ResourceUser($this->resource->zaposleni)
             
 
         ];

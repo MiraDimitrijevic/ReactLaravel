@@ -43,7 +43,7 @@ class EvidencijaController extends Controller
     {
         
         $validator = Validator::make($request->all(), [
-            'datum'=>'required|date_format:Y-m-d|after_or_equal:now',
+
             'vremeOd'=>'date_format:H:i:s|required',
             'zaposleni_id'=>'required'
         ]);
@@ -52,7 +52,7 @@ class EvidencijaController extends Controller
             return response()->json($validator->errors());
 
         $evidencija = Evidencija::create([
-            'datum' =>$request->datum,
+            'datum' =>now(),
             'vremeOd' =>$request->vremeOd,
             
             'zaposleni_id' => $request->zaposleni_id,

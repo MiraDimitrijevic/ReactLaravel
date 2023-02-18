@@ -25,6 +25,6 @@ class Evidencija extends Model
         return $this->belongsTo(User::class, 'user_id');
     } 
     public function zaposleni(){
-        return $this->belongsTo(Zaposleni::class, 'zaposleni_id');
+        return $this->belongsTo(User::class, 'zaposleni_id');
     }
 }

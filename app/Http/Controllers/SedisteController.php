@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Sediste;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Resources\ResourceUser;
+use App\Http\Resources\ResourceSediste;
 
 
-class UserController extends Controller
+class SedisteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return ['zaposleni' => ResourceUser::collection(User::get())];
-     
+        return ['sedista' => ResourceSediste::collection(Sediste::get())];
+
     }
 
     /**
@@ -27,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -44,30 +45,22 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Sediste  $sediste
      * @return \Illuminate\Http\Response
      */
-    public function show($user_id)
+    public function show(Sediste $sediste)
     {
-        $user=User::find($user_id);
-        
-        if(is_null($user)){
-        
-        return response()->json('Data not found', 404);}
-        
-        return response()->json(new ResourceUser($user));
-        
-        
-    
-}
+        return new ResourceSediste($sediste);
+
+    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Sediste  $sediste
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Sediste $sediste)
     {
         //
     }
@@ -76,10 +69,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Sediste  $sediste
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Sediste $sediste)
     {
         //
     }
@@ -87,18 +80,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Sediste  $sediste
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $user_id)
+    public function destroy(Sediste $sediste)
     {
-        $user=User::find($user_id);
-        if(is_null($user)){
-            return response()->json('Zaposleni sa ovim idjem ne postoji', 404);      }
-        $user->delete();
-
-        return response()->json('Zaposleni je uspesno obrisan.');
-        
-        
+        //
     }
 }

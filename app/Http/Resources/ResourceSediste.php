@@ -3,10 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\ResourceSediste;
 
-
-class ResourceOdeljenje extends JsonResource
+class ResourceSediste extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,18 +12,15 @@ class ResourceOdeljenje extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public static $wrap='odeljenje';
-
+    public static $wrap='sediste';
     public function toArray($request)
     {
         return [
             'id'=>$this->resource->id,
-            'naziv'=>$this->resource->naziv,
+            'grad'=>$this->resource->grad,
         
-            'opis'=>$this->resource->opis,
-            'sediste'=> new ResourceSediste($this->resource->sediste),
+            'adresa'=>$this->resource->adresa
+            
 
-
-        ];
-    }
+        ];    }
 }

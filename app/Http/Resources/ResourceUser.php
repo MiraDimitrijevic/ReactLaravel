@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ResourceOdeljenje;
+
 
 class ResourceUser extends JsonResource
 {
@@ -12,16 +14,18 @@ class ResourceUser extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public static $wrap='administrator';
+    public static $wrap='zaposleni';
 
     public function toArray($request)
     {
         return  [
             'id'=>$this->resource->id,
-            'ime i prezime'=>$this->resource->name,
+            'name'=>$this->resource->name,
             'email'=>$this->resource->email,
             'pol'=>$this->resource->pol,
-            
+            'admin'=>$this->resource->admin,
+            'odeljenje'=> new ResourceOdeljenje($this->resource->odeljenje)
+
             
 
         ];

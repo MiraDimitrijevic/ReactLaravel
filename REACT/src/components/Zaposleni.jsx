@@ -10,45 +10,64 @@ import DataTables from 'datatables.net';
 
 
 function Zaposleni() {
-    $(document).ready( function () {
-        $('#table').DataTable();
-    } );
-    
     const[zaposleni, setZaposleni]= useState();
+
+   
+
+
+    $(document).ready( 
+        function () {
+            
+            console.log(zaposleni);
+
+            $('#table').DataTable( {
+
+                "bDestroy": true,
+                columnDefs: [{
+                    "defaultContent": "-",
+                    "targets": "_all"
+                  }],
+                data: zaposleni,
+                columns: [
+                    { "data": "name" },
+                    { "data": "email"},
+                    { "data": "pol" },
+                    { "data": "odeljenje.naziv" }
+                   
+              ]},
+            );
+    
+      
+
+    } );  
+    
     useEffect(()=>{
         if(zaposleni == null) {
             axios.get("http://127.0.0.1:8000/api/zaposleni").then((res) =>{
-                console.log(res.data);
+              //  console.log(res.data);
+              // console.log(res.data.zaposleni);
                 setZaposleni(res.data.zaposleni);
                 // msm da je ovo wrap prom
-         } );
+
+              
+
+         }, [zaposleni] );
         }
     });
-  
+  const results=[];
+
+ 
   return (
-    <table id="table" class="display">
-    <thead>
-        <tr>
-            <th>Ime i prezime</th>
-            <th>Kontakt email</th>
-            <th>Pol</th>
-            <th>Odeljenje</th>
+    <table id="table" class="display" >
+    <thead><tr>
+        <th>Ime i prezime</th>
+        <th>Email</th>
+        <th>Pol</th>
+        <th>Odeljenje</th>
         </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <td>Row 1 Data 1</td>
-            <td>Row 1 Data 2</td> 
-             <td>Row 1 Data 1</td>
-            <td>Row 1 Data 2</td>
-        </tr>
-        <tr>
-            <td>Row 2 Data 1</td>
-            <td>Row 2 Data 2</td>
-            <td>Row 2 Data 1</td>
-            <td>Row 2 Data 2</td>
-        </tr>
-    </tbody>
+        </thead>
+
+    
 </table>
   )
 }

@@ -20,7 +20,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('pol', ['z','m']);
-            $table->foreignId('odeljenje_id')->default(1);
+            $table->foreignId('odeljenje_id');
+            $table->boolean('admin');
             $table->rememberToken();
             $table->timestamps();
         });

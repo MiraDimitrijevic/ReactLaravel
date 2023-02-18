@@ -3,11 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ZaposleniController;
+use App\Http\Controllers\SedisteController;
 use App\Http\Controllers\OdeljenjeController;
 use App\Http\Controllers\EvidencijaController;
-use App\Http\Controllers\OdeljenjeZaposleniControler;
-use App\Http\Controllers\ZaposleniEvidencijaControler;
+use App\Http\Controllers\OdeljenjeUserControler;
+use App\Http\Controllers\UserEvidencijaControler;
 use App\Http\Controllers\API\AuthController;
 
 
@@ -28,9 +28,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 });
 Route::resource('odeljenje', OdeljenjeController::class)->only(['show', 'index']);
-Route::resource('administrator', UserController::class)->only(['show', 'index']);
-Route::get('odeljenje/{id}/zaposleni', [OdeljenjeZaposleniControler::class, 'index'])->name('odeljenje.zaposleni.index');
-Route::resource('zaposleni', ZaposleniController::class)->only(['show', 'index', 'update', 'store', 'destroy']);
+Route::resource('sediste', SedisteController::class)->only(['show', 'index']);
+Route::resource('zaposleni', UserController::class)->only(['show', 'index', 'destroy']);
+
+
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
@@ -38,10 +39,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
-    Route::get('zaposleni/{id}/evidencije', [ZaposleniEvidencijaControler::class, 'index'])->name('zaposleni.evidencije.index');
 
     Route::resource('evidencija', EvidencijaController::class)->only(['show', 'index','update', 'store']);
-  
+    Route::get('zaposleni/{id}/evidencije', [UserEvidencijaControler::class, 'index'])->name('user.evidencije.index');
+    Route::get('odeljenje/{id}/zaposleni', [OdeljenjeUserControler::class, 'index'])->name('odeljenje.user.index');
+
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });
