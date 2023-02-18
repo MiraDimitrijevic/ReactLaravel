@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+.btnLogin{
+  background-color: black;
+  color: white;
+}

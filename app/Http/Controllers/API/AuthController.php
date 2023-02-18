@@ -36,13 +36,13 @@ class AuthController extends Controller
 
         $token = $user->createToken('registration_token')->plainTextToken;
 
-        return response()->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer']);
+        return response()->json(['success'=>true, 'data' => $user, 'access_token' => $token, 'token_type' => 'Bearer']);
     }
     public function login(Request $request)
     {
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()
-                ->json(['message' => 'Pogresni kredencijali za prijavu'], 401);
+                ->json(['success'=> false]);
         }
 
         $user = User::where('email', $request['email'])->firstOrFail();
@@ -50,7 +50,7 @@ class AuthController extends Controller
         $token = $user->createToken('token_login')->plainTextToken;
 
         return response()
-            ->json(['message' => 'Zdravo, ' . $user->name . ', Dobrodošli na home page.', 'access_token' => $token, 'token_type' => 'Bearer',]);
+            ->json(['success'=>true, 'access_token' => $token, 'token_type' => 'Bearer',]);
     }
     
     public function logout()

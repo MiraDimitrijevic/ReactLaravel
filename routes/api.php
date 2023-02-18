@@ -30,6 +30,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('odeljenje', OdeljenjeController::class)->only(['show', 'index']);
 Route::resource('administrator', UserController::class)->only(['show', 'index']);
 Route::get('odeljenje/{id}/zaposleni', [OdeljenjeZaposleniControler::class, 'index'])->name('odeljenje.zaposleni.index');
+Route::resource('zaposleni', ZaposleniController::class)->only(['show', 'index', 'update', 'store', 'destroy']);
+
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -39,7 +41,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('zaposleni/{id}/evidencije', [ZaposleniEvidencijaControler::class, 'index'])->name('zaposleni.evidencije.index');
 
     Route::resource('evidencija', EvidencijaController::class)->only(['show', 'index','update', 'store']);
-    Route::resource('zaposleni', ZaposleniController::class)->only(['show', 'index', 'update', 'store', 'destroy']);
   
 
     Route::post('/logout', [AuthController::class, 'logout']);

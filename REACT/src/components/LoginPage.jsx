@@ -1,4 +1,9 @@
 import React from 'react'
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+
     import {
       MDBBtn,
       MDBContainer,
@@ -12,8 +17,47 @@ import React from 'react'
     }
     from 'mdb-react-ui-kit';
 
-const LoginPage = () => {
+const LoginPage = ({addToken}) => {
+  const [podaciZaPrijavu, setPodaciZaPrijavu]=useState({
+    email: "",
+    password: "",
+    
+  });
+
+  function dodajMejl(e){
+    let data=podaciZaPrijavu;
+    data[e.target.name]=e.target.value;
+    console.log(data);
+    setPodaciZaPrijavu(data);
+  }
+  function dodajLozinku(e){
+    let data=podaciZaPrijavu;
+    data[e.target.name]=e.target.value;
+    console.log(data);
+
+    setPodaciZaPrijavu(data);
+  }
+  let navigate=useNavigate();
+  function login(e){
+    e.preventDefault();
+axios.post("http://127.0.0.1:8000/api/login", podaciZaPrijavu).then((res) =>{
+  console.log(res.data);
+  if(res.data.success=== true) {
+window.sessionStorage.setItem("token", res.data.access_token );
+addToken(res.data.access_token);
+navigate("/");
+  } else {
+    alert("Pogresi kredencijali! Pokusajte ponovo");
+
+  }
+}).catch((e)=>{
+  console.log(e);
+ 
+  
+});
+  }
   return (
+  
         <MDBContainer className="my-5">
     
           <MDBCard>
@@ -33,11 +77,11 @@ const LoginPage = () => {
     
                   <h5 className="fw-normal my-4 pb-3" style={{letterSpacing: '1px'}}>Ulogujte se</h5>
     
-                    <MDBInput wrapperClass='mb-4' label='Email adresa' id='formControlLg' type='email' size="lg"/>
-                    <MDBInput wrapperClass='mb-4' label='Lozinka' id='formControlLg' type='password' size="lg"/>
+                    <MDBInput wrapperClass='mb-4' label='Email adresa' id='formControlLg' type='email' name="email" size="lg" onInput={dodajMejl} />
+                    <MDBInput wrapperClass='mb-4' label='Lozinka' id='formControlLg' type='password' name='password' size="lg" onInput={dodajLozinku}/>
     
-                  <MDBBtn className="mb-4 px-5" color='dark' size='lg'>Login</MDBBtn>
-                  <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Nemate nalog? <a href="#!" style={{color: '#393f81'}}>Registrujte se</a></p>
+                  <button className="btnLogin"  type='submit' size='lg' onClick={login}>Login</button>
+                  <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Nemate nalog? <a href="/register" style={{color: '#393f81'}}>Registrujte se</a></p>
     
                   
     

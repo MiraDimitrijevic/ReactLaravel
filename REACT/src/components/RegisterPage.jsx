@@ -1,4 +1,9 @@
-import React from 'react'
+import React from 'react';
+import { useState } from 'react';
+import axios from 'axios';
+import jQuery from 'jquery';
+import $ from 'jquery';
+import { useNavigate } from 'react-router-dom';
 import {
   MDBBtn,
   MDBContainer,
@@ -13,6 +18,63 @@ import {
 from 'mdb-react-ui-kit';
 
 function RegisterPage() {
+const[odeljenje, setOdeljenje]=useState(1);
+$('#odelj').change(function(){
+  console.log($(this).val());
+})
+
+
+
+  const [podaciZaRegistraciju, setPodaciZaRegistraciju]=useState({
+    name:"",
+    email: "",
+    password: "",
+    pol:"m",
+    odeljenje:"",
+    
+  });
+  function getSelected(){
+    var UserOption  = document.getElementById('odelj').value;
+    console.log(UserOption);
+    setPodaciZaRegistraciju[odeljenje]=UserOption;
+  
+  }
+
+  function vratiPol(e){
+
+let data=podaciZaRegistraciju;
+data[e.target.id]=e.target.value;
+console.log(data);
+setPodaciZaRegistraciju(data);
+  }
+
+  function dodaj(e){
+    let data=podaciZaRegistraciju;
+    data[e.target.name]=e.target.value;
+    console.log(data);
+    setPodaciZaRegistraciju(data);
+  }
+  let navigate=useNavigate();
+
+  function register(e){
+    getSelected();
+    e.preventDefault();
+axios.post("http://127.0.0.1:8000/api/register", podaciZaRegistraciju).then((res) =>{
+  console.log(res.data);
+  if(res.data.success === true) {
+window.sessionStorage.setItem("token_reg", res.data.access_token );
+navigate("/login");
+
+  } else {
+    alert("Neuspesna registracija, pokušajte ponovo" );
+
+  }
+}).catch((e)=>{
+  console.log(e);
+
+  
+});
+  }
   return (
     <MDBContainer fluid className='bg-dark'>
 
@@ -30,17 +92,17 @@ function RegisterPage() {
               <MDBCol md='6'>
 
                 <MDBCardBody className='text-black d-flex flex-column justify-content-center'>
-                  <h3 className="mb-5 text-uppercase fw-bold">Student registration form</h3>
+                  <h3 className="mb-5 text-uppercase fw-bold">Forma za registraciju zaposlenih</h3>
 
-                  <MDBInput wrapperClass='mb-4' label='Ime i Prezime' size='lg' id='form3' type='text'/>
+                  <MDBInput wrapperClass='mb-4' label='Ime i Prezime'  onInput={dodaj} name= "name" size='lg' id='form3' type='text'/>
                   <MDBRow>
 
                     <MDBCol md='6'>
-                      <MDBInput wrapperClass='mb-4' label='Email' size='lg' id='form1' type='text'/>
+                      <MDBInput wrapperClass='mb-4' label='Email'  name= "email"  onInput={dodaj} size='lg' id='form1' type='text'/>
                     </MDBCol>
 
                     <MDBCol md='6'>
-                      <MDBInput wrapperClass='mb-4' label='Lozinka' size='lg' id='form2' type='text'/>
+                      <MDBInput wrapperClass='mb-4' label='Lozinka'  name= "password"  onInput={dodaj} size='lg' id='form2' type='text'/>
                     </MDBCol>
 
                   </MDBRow>
@@ -48,23 +110,23 @@ function RegisterPage() {
 
                   <div className='d-md-flex ustify-content-start align-items-center mb-4'>
                     <h6 class="fw-bold mb-0 me-4">Gender: </h6>
-                    <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='Zensko' inline />
-                    <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='Musko' inline />
+                    <MDBRadio name='inlineRadio' id='pol'  onChange={vratiPol} value='z' label='Zensko'inline />
+                    <MDBRadio name='inlineRadio' id='pol' onChange={vratiPol} checked="checked" value='m' label='Musko' inline />
                   </div>
 
                   <MDBRow>
 
                     <MDBCol md='6'>
-                    <select class="form-select" aria-label="Default select example"><option selected>Open this select menu</option><option value="1">One</option><option value="2">Two</option><option value="3">Three</option></select>
+                    <select class="form-select"  id= "odelj" onChange={dodaj} name= "odeljenje" aria-label="Default select example"><option selected>Open this select menu</option><option value="1">One</option><option value="2">Two</option><option value="3">Three</option></select>
                     </MDBCol>
 
                   </MDBRow>
 
                   <div className="d-flex justify-content-end pt-3">
-                    <button className='ms-2' color='warning' size='lg'>Registruj se</button>
+                    <button className='ms-2' color='warning' size='lg' onClick={register}>Registruj se</button>
                   </div>
 
-                  <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Imate nalog? <a href="#!" style={{color: '#393f81'}}>Prijavite se</a></p>
+                  <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Imate nalog? <a href="/login" style={{color: '#393f81'}}>Prijavite se</a></p>
 
                 </MDBCardBody>
 
