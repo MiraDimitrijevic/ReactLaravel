@@ -18,6 +18,7 @@ class ResourceEvidencija extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this->resource->id,
             'datum'=>$this->resource->datum,
             'vremeOd'=>$this->resource->vremeOd,
             'vremeDo'=>$this->resource->vremeDo,

@@ -1,30 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Outlet } from 'react-router-dom';
 
 
-function NavBar({token}) {
-
+function NavBar(props) {
+  const[tok,setTok]=useState(props.token);
     
-    function logout(){
-        
-        var config = {
-          method: 'post',
-          url: 'http://127.0.0.1:8000/api/logout',
-          headers: { 
-            'Authorization': 'Bearer ' + window.sessionStorage.getItem("token"),
-          },
-        };
-        
-        axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
-          window.sessionStorage.setItem("token", null);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    
 
+    function setToken(){
+    setTok(window.sessionStorage.getItem("token"));
+    window.location.reload(false);
     }
 
   return (
@@ -38,10 +24,10 @@ function NavBar({token}) {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="/zaposleni">Svi zaposleni</a>
+            <a className="nav-link active"  onClick={setToken} aria-current="page" href="/zaposleni">Svi zaposleni</a>
           </li>
           <li className="nav-item">
-            {token == null ? <a className="nav-link" href="/login" >Login</a> : <a className="nav-link"  onClick={logout} href="/">Logout</a> }
+            {tok == "" ? <a className="nav-link" href="/login" >Login</a> : <a className="nav-link"  onClick={props.logout} href="/">Logout</a> }
           </li>
           <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

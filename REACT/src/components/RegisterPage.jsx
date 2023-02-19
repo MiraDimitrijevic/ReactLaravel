@@ -5,7 +5,6 @@ import jQuery from 'jquery';
 import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 import {
-  MDBBtn,
   MDBContainer,
   MDBCard,
   MDBCardBody,

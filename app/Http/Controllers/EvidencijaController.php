@@ -60,7 +60,7 @@ class EvidencijaController extends Controller
            'user_id' => Auth::user()->id,
         ]);
 
-        return response()->json(['Uspesno ste evidentirali dolazak zaposlenog', new ResourceEvidencija($evidencija)]);
+        return response()->json(['success'=>true, new ResourceEvidencija($evidencija)]);
 
     }
 
@@ -108,7 +108,7 @@ class EvidencijaController extends Controller
     
         $evidencija->save();
     
-        return response()->json(['Uspesno ste evidentirali vreme odlaska zaposlenog.', new ResourceEvidencija($evidencija)]);
+        return response()->json(['success'=>true, 'id'=>$evidencija->id, new ResourceEvidencija($evidencija)]);
     }
 }
 

@@ -54,14 +54,17 @@ class AuthController extends Controller
         $token = $user->createToken('token_login')->plainTextToken;
 
         return response()
-            ->json(['success'=>true, 'access_token' => $token, 'token_type' => 'Bearer',]);
+            ->json(['success'=>true,'user_id'=>$user->id, 'access_token' => $token, 'token_type' => 'Bearer',]);
     }
     
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        $user = Auth::user();
+        $user->tokens->each(function($token, $key) {
+            $token->delete();
+        });
         return [
-            'message' => 'Uspešno ste se odjavili'
+            'message' => 'You have successfully logged out!'
         ];
     }
 }
