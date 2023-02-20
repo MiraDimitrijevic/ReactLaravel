@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
        "api/login",
-       "api/*"
+       "api/*",
+       "https://www.timeapi.io/api/Time/current/ip?ipAddress=237.71.232.203",
     ];
 }

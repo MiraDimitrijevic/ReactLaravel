@@ -95,9 +95,10 @@ class UserController extends Controller
         $user=User::find($user_id);
         if(is_null($user)){
             return response()->json('Zaposleni sa ovim idjem ne postoji', 404);      }
+            
         $user->delete();
 
-        return response()->json('Zaposleni je uspesno obrisan.');
+        return response()->json(['success'=>true]);
         
         
     }

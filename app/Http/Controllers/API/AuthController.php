@@ -54,7 +54,7 @@ class AuthController extends Controller
         $token = $user->createToken('token_login')->plainTextToken;
 
         return response()
-            ->json(['success'=>true,'user_id'=>$user->id, 'access_token' => $token, 'token_type' => 'Bearer',]);
+            ->json(['success'=>true,'user_id'=>$user->id, 'admin'=>$user->admin, 'access_token' => $token, 'token_type' => 'Bearer',]);
     }
     
     public function logout()

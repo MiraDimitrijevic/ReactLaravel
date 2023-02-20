@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import {
 
   MDBContainer,
@@ -17,53 +16,8 @@ import {
 
 
 
-function FormaEvidencija({zaposlen, user_id, show}) {
- let navigate=useNavigate();
- const [vremeOd, setVremeOd]=useState();
- const[evid_id, setEvid_id]=useState(0);
+function FormaEvidencija({evidentiraj, dodaj, show}) {
 
- function dodaj(e){
-  setVremeOd(e.target.value) ;
- 
- }
-
-  function evidentiraj(e){
-    e.preventDefault();
-    
-    let t= window.sessionStorage.getItem("token");
-    let podaciZaEvid = {
-      vremeOd:vremeOd,
-      zaposleni_id: zaposlen,
-      user_id: user_id,
-    };
-    {zaposlen == 0 ?  console.log("Vrednost nije prosledjena") :
-    axios.post("http://127.0.0.1:8000/api/evidencija", podaciZaEvid, {
-      headers: {
-        Authorization: `Bearer ${t}`,
-      },
-    }).then((res) =>{
-     
-      if(res.data.success=== true) {
-       
-        alert("Uspesno evidentirano" );
-window.location.reload(true);
-        //navigate("/");
-    
-        console.log(res.data);
-       
-
-      } else {
-        alert("Vreme nije uneto u dobrom formatu!" );
-    
-      }
-    }).catch((e)=>{
-      console.log(e);
-    
-      
-    });
-    
-  }
-    }
 
   return (
     

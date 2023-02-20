@@ -45,7 +45,8 @@ class EvidencijaController extends Controller
         $validator = Validator::make($request->all(), [
 
             'vremeOd'=>'date_format:H:i:s|required',
-            'zaposleni_id'=>'required'
+            'zaposleni_id'=>'required',
+            'user_id'=>'required',
         ]);
 
         if ($validator->fails())
@@ -57,7 +58,7 @@ class EvidencijaController extends Controller
             
             'zaposleni_id' => $request->zaposleni_id,
           
-           'user_id' => Auth::user()->id,
+           'user_id' => $request->user_id,
         ]);
 
         return response()->json(['success'=>true, new ResourceEvidencija($evidencija)]);
@@ -97,7 +98,7 @@ class EvidencijaController extends Controller
     public function update(Request $request, Evidencija $evidencija)
     {
         {$validator = Validator::make($request->all(), [
-            'vremeDo' => 'required|date_format:H:i:s',
+            'vremeDo' => 'required|date_format:H:i:s'
         ]);
     
         if ($validator->fails())

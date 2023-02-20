@@ -42,12 +42,14 @@
   color: white;
 }
 
-.btn{
+.btn , .btn2 , .btn3{
   background-color: rgb(219, 230, 167);
   max-width: 80px;
   font-size: 12px;
   margin-right: 6px;
 }
+
+
 
 .ghost{
   display: none;

@@ -7,20 +7,17 @@ import "datatables.net-dt/css/jquery.dataTables.min.css";
 
 
 
-function Zaposleni() {
+function ZaposleniEvidencija() {
    
 
  
   return (<>
  
-    <table id="table" class="display" >
+    <table id="tableZE" class="display" >
     <thead><tr>
-      <th id="idZap">Zaposleni ID</th>
-        <th>Ime i prezime</th>
-        <th>Email</th>
-        <th>Pol</th>
-        <th>Odeljenje</th>
-        <th>Evidencije</th>
+        <th>Datum</th>
+        <th>Vreme dolaska</th>
+        <th>Vreme odlaska</th>
         </tr>
         </thead>
 
@@ -32,4 +29,4 @@ function Zaposleni() {
   )
 }
 
-export default Zaposleni
+export default ZaposleniEvidencija

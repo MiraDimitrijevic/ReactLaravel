@@ -36,13 +36,13 @@ Route::resource('zaposleni', UserController::class)->only(['show', 'index', 'des
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/profile', function (Request $request) {
+    Route::get('/user', function (Request $request) {
         return auth()->user();
     });
 
-    Route::resource('evidencija', EvidencijaController::class)->only(['show', 'index','update', 'store']);
     Route::get('zaposleni/{id}/evidencije', [UserEvidencijaControler::class, 'index'])->name('user.evidencije.index');
     Route::get('odeljenje/{id}/zaposleni', [OdeljenjeUserControler::class, 'index'])->name('odeljenje.user.index');
+    Route::resource('evidencija', EvidencijaController::class)->only(['show', 'index','update', 'store']);
 
 
     Route::post('/logout', [AuthController::class, 'logout']);
