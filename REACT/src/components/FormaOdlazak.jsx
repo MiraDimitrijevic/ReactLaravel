@@ -76,7 +76,7 @@ function FormaOdlazak({evid_id,  show2 , evidVremeOd}) {
           <MDBRow className='g-0'>
 
             <MDBCol md='6' className="d-none d-md-block">
-              <MDBCardImage src="../slike/ova.png" alt="Sample photo" width={900+'px'} className="rounded-start" fluid/>
+              <MDBCardImage src="../slike/s2.jpg" alt="Sample photo" width={500+'px'} className="rounded-start" fluid/>
             </MDBCol>
 
             <MDBCol md='6'>
@@ -88,7 +88,7 @@ function FormaOdlazak({evid_id,  show2 , evidVremeOd}) {
                
                
                 <div className="d-flex justify-content-end pt-3">
-                  <button className='ms-2' color='warning' size='lg' onClick={evidentirajOdlazak}>Evidentiraj odlazak</button>
+                  <button className='btnForma' color='warning' size='lg' onClick={evidentirajOdlazak}>Evidentiraj odlazak</button>
                 </div>
 
 

@@ -32,19 +32,18 @@ function FormaEvidencija({evidentiraj, dodaj, show}) {
           <MDBRow className='g-0'>
 
             <MDBCol md='6' className="d-none d-md-block">
-              <MDBCardImage src="../slike/ova.png" alt="Sample photo" width={900+'px'} className="rounded-start" fluid/>
+              <MDBCardImage src="../slike/s6.jpg" alt="Sample photo" width={600+'px'} className="rounded-start" fluid/>
             </MDBCol>
 
             <MDBCol md='6'>
 
               <MDBCardBody className='text-black d-flex flex-column justify-content-center'>
                 <h3 className="mb-5 text-uppercase fw-bold">Dolasci zaposlenog</h3>
-
-                <MDBInput wrapperClass='mb-4' placeholder='HH:mm:ss' label='Vreme dolaska na posao:'  onInput={dodaj} name= "name" size='lg' id='form3' type='text'/>
+                <MDBInput wrapperClass='mb-4' placeholder='HH:mm:ss' label='Vreme dolaska na posao'  onInput={dodaj} name= "name" size='lg' id='form3' type='text'/>
                
                
                 <div className="d-flex justify-content-end pt-3">
-                  <button className='ms-2' color='warning' size='lg' onClick={evidentiraj}>Evidentiraj prisustvo</button>
+                  <button className='btnDolazak' color='warning' size='lg' onClick={evidentiraj}>Evidentiraj prisustvo</button>
                 </div>
 
 

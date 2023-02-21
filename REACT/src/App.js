@@ -132,7 +132,7 @@ navigate("/zaposleni");
                 { "data": "email"},
                 { "data": "pol" },
                 { "data": "odeljenje.naziv" },
-                {"data":null , defaultContent:"<button class='btn' variant='primary'   >evidentiraj dolazak</button><button class='btn3'>obrisi zaposlenog</button>" , targets:-1
+                {"data":null , defaultContent:"<div class='dugmad'><button class='btn' variant='primary'   >evidentiraj dolazak</button><button class='btn3'>obrisi zaposlenog</button></div>" , targets:-1
                   }
                
           ]},
