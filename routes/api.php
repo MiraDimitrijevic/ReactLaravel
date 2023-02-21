@@ -27,10 +27,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 });
+Route::get('zaposleni/join', [UserController::class, 'join']);
 Route::resource('odeljenje', OdeljenjeController::class)->only(['show', 'index']);
 Route::resource('sediste', SedisteController::class)->only(['show', 'index']);
 Route::resource('zaposleni', UserController::class)->only(['show', 'index', 'destroy']);
-
 
 
 Route::post('/login', [AuthController::class, 'login']);

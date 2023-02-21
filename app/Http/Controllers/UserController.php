@@ -29,6 +29,7 @@ class UserController extends Controller
     {
         
     }
+   
 
     /**
      * Store a newly created resource in storage.
@@ -60,7 +61,12 @@ class UserController extends Controller
         
     
 }
-
+public function join()
+{
+    $zaposleni = User::join('odeljenjes', 'odeljenjes.id', '=', 'users.odeljenje_id')
+       ->get(['users.id','users.name','users.email','users.pol','odeljenjes.naziv']);
+   return response()->json($zaposleni);
+}
     /**
      * Show the form for editing the specified resource.
      *
@@ -83,6 +89,15 @@ class UserController extends Controller
     {
         //
     }
+    public function getById($id)
+    {
+        $user = User::findOrFail($id);
+
+        return new ResourceUser($user);
+ 
+    }
+
+    
 
     /**
      * Remove the specified resource from storage.
