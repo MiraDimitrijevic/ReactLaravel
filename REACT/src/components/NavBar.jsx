@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Outlet } from 'react-router-dom';
 
 
@@ -34,7 +33,7 @@ function NavBar(props) {
           </li>
           
           <li className="nav-item">
-          {tok == window.sessionStorage.getItem("token") ? (<a className="nav-link" href="/login" >Login</a>) : (<a className="nav-link"  onClick={props.logout} href="/login">Logout</a> )}          </li>
+          {("" == window.sessionStorage.getItem("token") || window.sessionStorage.getItem("token")==null) ? (<a className="nav-link" href="/login" >Login</a>) : (<a className="nav-link"  onClick={props.logout} href="/login">Logout</a> )}          </li>
           <li className="nav-item dropdown">
             
             
@@ -42,7 +41,7 @@ function NavBar(props) {
           <li className="nav-item">
           </li>
         </ul>
-       <div>   {props.dat.day}  . {props.dat.month} . {props.dat.year}</div>
+       <div>   <p  onClick={props.api}> Kada je sledeći državni praznik? {props.dat.pNaziv} :{props.dat.pDatum} </p></div>
       </div>
     </div>
   </nav>

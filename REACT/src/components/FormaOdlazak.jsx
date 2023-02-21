@@ -43,8 +43,8 @@ function FormaOdlazak({evid_id,  show2 , evidVremeOd}) {
       if(res.data.success=== true) {
        
         alert("Uspesno evidentiran odlazak" );
-//window.location.reload(true);
-        navigate("");
+window.location.reload(true);
+       // navigate("/evidencije");
     
         console.log(res.data);
        

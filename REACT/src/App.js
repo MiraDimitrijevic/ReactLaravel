@@ -31,11 +31,13 @@ function App() {
   const[evidID, setEvidID] = useState(0);
   const[evidVremeOd, setEvidVremeOd]=useState();
   const[ zapBris, setZapBris]= useState(0);
-  const[dat, setDat]=useState({
-    day:"",
-    month:"",
-    year:"",
+  const[dayOfWeek, setDayOfWeek]=useState(0);
+  const [dat, setDat] = useState({
+    pNaziv: "",
+    pDatum: "",
   });
+
+  
 
   function  addToken(token){
     setToken(window.sessionStorage.getItem("token"));
@@ -82,14 +84,12 @@ function App() {
   function dodajLozinku(e){
     let data=podaciZaPrijavu;
     data[e.target.name]=e.target.value;
-    console.log(data);
 
     setPodaciZaPrijavu(data);
   }
   function login(e){
     e.preventDefault();
 axios.post("http://127.0.0.1:8000/api/login", podaciZaPrijavu).then((res) =>{
-  console.log(res.data);
   if(res.data.success=== true) {
 window.sessionStorage.setItem("token", res.data.access_token );
 addToken(res.data.access_token);
@@ -131,31 +131,33 @@ navigate("/zaposleni");
                 { "data": "name" },
                 { "data": "email"},
                 { "data": "pol" },
-                { "data": "odeljenje.naziv" },
+                { "data": "naziv" },
                 {"data":null , defaultContent:"<div class='dugmad'><button class='btn' variant='primary'   >evidentiraj dolazak</button><button class='btn3'>obrisi zaposlenog</button></div>" , targets:-1
                   }
                
           ]},
         );
         $('#table .btn ').on('click', function(){
-        console.log(dat);
           if(window.sessionStorage.getItem("isAdmin")==0)  { alert("Nisu vam dostupne ove opcije");
-          $(this).class='ghost';
-        }  else{
+          setShow('ghost');
+
+        }else  if(dayOfWeek==6 || dayOfWeek==7) {
+          let danUNed;
+         if(dayOfWeek==6) danUNed="subota"; else danUNed="nedelja";
+
+          alert("Ne možete unositi evidencije danas, jer je "+ danUNed+" neradan dan!")}else{
           
           let z = $('#table').DataTable().row($(this).closest('tr')).data();
-  //console.log(z.id);
 setZapID(z.id);
 setShow('normal');
   
     }});
    $('#table .btn3 ').on('click', function(){
     if(window.sessionStorage.getItem("isAdmin")==0)  { alert("Nisu vam dostupne ove opcije");}  else{
-      if(zapBris!=0) alert("Ne mogu se obrisati 2 zaposlena odjednom");
+      if(zapBris!=0) alert("Ne može se obrisati više zaposlenih odjednom!");
     let zap_bris = $('#table').DataTable().row($(this).closest('tr')).data();
 
-    console.log(zap_bris);
-    console.log(zap_bris.id);
+   
     setZapBris(zap_bris.id);
   
     }});      
@@ -229,9 +231,9 @@ $(document).ready(
 useEffect(()=>{
   if( window.sessionStorage.getItem("token") !== "" && window.sessionStorage.getItem("token") !== null){
     if(zaposleni == null) {
-        axios.get("http://127.0.0.1:8000/api/zaposleni").then((res) =>{
-            setZaposleni(res.data.zaposleni);
-
+        axios.get("http://127.0.0.1:8000/api/zaposleni/join/"+window.sessionStorage.getItem("user_id")).then((res) =>{
+            setZaposleni(res.data);
+          dayOftheWeek();
           
 
      }, [zaposleni] );
@@ -260,8 +262,7 @@ useEffect(()=>{
 
    }, [evidencije] );
   
-
-  if(zapBris!=0) {
+   if(zapBris!=0) {
     console.log(zapBris);
     { zapBris== window.sessionStorage.getItem("user_id") ?  console.log("Vrednost nije prosledjena") :
      axios.delete("http://127.0.0.1:8000/api/zaposleni/"+zapBris, {
@@ -290,33 +291,13 @@ useEffect(()=>{
      
    }
   }}
+}
 
 
   }
 
-  if(dat.day=="") {
- 
-     axios.get("https://www.timeapi.io/api/Time/current/ip?ipAddress=237.71.232.203")
-      .then((res) => {
-        setDat({
-      year:res.year,
-      month:res.month,
-      day:res.day,
-  
-  
-  
-        });
 
-        console.log(dat.day);
-      
-      },[dat])
-       .catch((e) => console.log(e));
-    
-  
-
-  }
-
-});
+);
 
 function dodaj(e){
  setVremeOd(e.target.value) ;
@@ -332,7 +313,6 @@ function dodaj(e){
      zaposleni_id: zaposlen,
      user_id:window.sessionStorage.getItem("user_id"),
    };
-   console.log(user_id , podaciZaEvid.zaposleni_id, podaciZaEvid.vremeOd );
 
    {zaposlen == 0 ?  console.log("Vrednost nije prosledjena") :
    axios.post("http://127.0.0.1:8000/api/evidencija", podaciZaEvid, {
@@ -346,9 +326,7 @@ function dodaj(e){
        alert("Uspesno evidentirano" );
 window.location.reload(true);
        navigate("/");
-   
-       console.log(res.data);
-      
+         
 
      } else {
        alert("Vreme nije uneto u dobrom formatu!" );
@@ -356,12 +334,49 @@ window.location.reload(true);
      }
    }).catch((e)=>{
      console.log(e);
-   
+   alert("Za ovog zaposlenog je već uneta evidencija za današnji dan!");
      
    });
    
  }
    }
+
+   function api(){
+    if(dat.pDatum !="")  {dat.pDatum=""; dat.pNaziv="";} else{
+    axios.get("https://date.nager.at/api/v2/publicholidays/2023/RS")
+    .then((response) => {
+      var today= new Date();
+     var date = today.getFullYear() + '-0' + (today.getMonth() + 1) + '-' + today.getDate();
+let podaci=response.data;
+let praznikDatum="";
+let praznikNaziv="";
+podaci.forEach((podatak)=>{
+  if(podatak.date >= date) {
+    if(praznikDatum== ""){
+   praznikDatum=podatak.date;
+   praznikNaziv=podatak.localName;
+
+  }
+}
+})
+setDat({
+  pDatum:praznikDatum,
+  pNaziv:praznikNaziv,
+})
+
+
+    
+    }, [])
+    .catch(error => console.log(error));
+
+  }
+  }
+
+
+  function dayOftheWeek(){
+axios.get("http://worldtimeapi.org/api/timezone/Europe/Belgrade").then((res)=>
+setDayOfWeek(res.data.day_of_week));
+  }
  
 
   return (
@@ -374,7 +389,7 @@ window.location.reload(true);
       <Route path='/login' element={ <LoginPage addToken={addToken}  dodajLozinku={dodajLozinku}  dodajMejl = {dodajMejl} login={login}  podaciZaPrijavu={podaciZaPrijavu}/>}></Route>
       
       <Route path='/register' element={<RegisterPage/>}></Route>
-      <Route path='/' element={<NavBar dat={dat}  token={token} logout={logout} admin={admin}/>}>
+      <Route path='/' element={<NavBar dat={dat} api={api} token={token} logout={logout} admin={admin}/>}>
        
      <Route path='zaposleni' element={<Unos evidentiraj={evidentiraj} show={show}  dodaj={dodaj}></Unos>}></Route>
      <Route path='evidencije' element={ <Odlazak   evid_id={evidID} show2={show2} evidVremeOd={evidVremeOd}    ></Odlazak>   }>   </Route>

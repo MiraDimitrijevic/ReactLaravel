@@ -61,11 +61,11 @@ class UserController extends Controller
         
     
 }
-public function join()
-{
+public function join(int $idi){
     $zaposleni = User::join('odeljenjes', 'odeljenjes.id', '=', 'users.odeljenje_id')
-       ->get(['users.id','users.name','users.email','users.pol','odeljenjes.naziv']);
-   return response()->json($zaposleni);
+    ->where('users.id','!=', $idi)
+    ->get(['users.id','users.name','users.email','users.pol','odeljenjes.naziv']);
+    return response()->json($zaposleni);
 }
     /**
      * Show the form for editing the specified resource.

@@ -19,7 +19,6 @@ from 'mdb-react-ui-kit';
 function RegisterPage() {
 const[odeljenje, setOdeljenje]=useState(1);
 $('#odelj').change(function(){
-  console.log($(this).val());
 })
 
 
@@ -130,7 +129,7 @@ navigate("/login");
                     
 
                     <MDBCol md='6'>
-                    <select class="form-select"  id= "odelj" onChange={dodaj} name= "odeljenje" aria-label="Default select example"><option selected>Open this select menu</option><option value="1">One</option><option value="2">Two</option><option value="3">Three</option></select>
+                    <select class="form-select"  id= "odelj" onChange={dodaj} name= "odeljenje" aria-label="Default select example"><option disabled='true' selected>Izaberite odeljenje</option><option value="1">Administrator</option><option value="2">Finansije</option><option value="3">Marketing</option></select>
                     </MDBCol>
 
                   </MDBRow>
