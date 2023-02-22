@@ -45,8 +45,7 @@ function NavBar(props) {
       </div>
     </div>
   </nav>
-  <Outlet/>
-  </div>
+  <Outlet/>{("" == window.sessionStorage.getItem("token")) ? (<div>Kako biste pristupili funkcionalnostima ShiftOn sajta ulogujte se!</div>) : (<></> )}</div>
  
   )
 }

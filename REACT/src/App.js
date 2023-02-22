@@ -110,6 +110,15 @@ navigate("/zaposleni");
 });
   }
 
+  const deleteZap = async (zapzabris) => {
+    var config = {method: "delete",
+    url: "http://127.0.0.1:8000/api/zaposleni/"+zapzabris.id,
+    headers: {Authorization: `Bearer ${window.sessionStorage.getItem("token")}`,},};
+    const res = await axios(config);if (res.data.success===true) {alert("Uspesno obrisan zaposleni" );
+    window.location.reload(true);
+    //navigate("/");   
+    console.log(res.data);}
+    else {alert("Doslo je do greske, zaposleni nije obrisan" );}};
 
  
   $(document).ready( 
@@ -152,15 +161,10 @@ setZapID(z.id);
 setShow('normal');
   
     }});
-   $('#table .btn3 ').on('click', function(){
-    if(window.sessionStorage.getItem("isAdmin")==0)  { alert("Nisu vam dostupne ove opcije");}  else{
-      if(zapBris!=0) alert("Ne može se obrisati više zaposlenih odjednom!");
-    let zap_bris = $('#table').DataTable().row($(this).closest('tr')).data();
-
-   
-    setZapBris(zap_bris.id);
-  
-    }});      
+    $('#table .btn3 ').on('click', function(){
+      if(window.sessionStorage.getItem("isAdmin")==0){ alert("Nisu vam dostupne ove opcije");}
+    else{let zap_bris = $('#table').DataTable().row($(this).closest('tr')).data();
+    deleteZap(zap_bris);}});   
 
 } );  
 
